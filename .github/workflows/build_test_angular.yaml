@@ -20,9 +20,20 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Test Application
-        run: |
-          npm install
-          npm run build
-          npm run test:ci
+      - name: Cache node_modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Run Tests
+        run: npm run test:ci
 
