@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist/integration_deploiement_personal_front/browser"
+    "deploy": "ng deploy --repo=https://github.com/strackzdev/y_integration_deploiement.git"
   },
   "private": true,
   "homepage": "https://strackzdev.github.io/y_integration_deploiement/",
@@ -37,7 +37,6 @@
     "@testing-library/user-event": "^14.5.2",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.20",
-    "gh-pages": "^6.1.1",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
