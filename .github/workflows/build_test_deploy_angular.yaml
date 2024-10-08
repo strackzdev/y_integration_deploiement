@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifact
-          path: dist/integration_deploiement_personal_front/browser
+          path: dist
           if-no-files-found: 'error'
 
   deploy:
