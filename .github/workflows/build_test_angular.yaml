@@ -24,5 +24,5 @@ jobs:
         run: |
           npm install
           npm run build
-          ng test --sourceMap=false --browsers=ChromeHeadless --watch=false
+          npm run test:ci
 
