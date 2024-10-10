@@ -45,7 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: 'dist'
+          path: 'dist/integration_deploiement_personal_front/browser'
 
   deploy:
     environment:
