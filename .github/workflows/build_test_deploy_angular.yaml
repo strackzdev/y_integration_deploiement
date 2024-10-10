@@ -45,19 +45,14 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     permissions:
       pages: write
       id-token: write
-      contents: write
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Angular Deploy gh-pages Actions
-        uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.4.0
-        with:
-          angular_project_dir: './'
-          github_access_token: ${{ secrets.GH_TOKEN }}
-          build_configuration: production
-          base_href: https://strackzdev.github.io/y_integration_deploiement/
-          deploy_branch: master
-          angular_dist_build_folder: dist/integration_deploiement_personal_front/browser
+      - name: Deploy to Github Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+
 
