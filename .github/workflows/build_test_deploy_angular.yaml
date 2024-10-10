@@ -37,7 +37,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: 'dist/integration_deploiement_personal_front/browser'
+          path: dist
 
   deploy:
     runs-on: ubuntu-latest
