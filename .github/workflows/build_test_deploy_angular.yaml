@@ -20,14 +20,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node_modules
-
       - name: Install dependencies
         run: npm install
 
@@ -48,15 +40,15 @@ jobs:
           path: 'dist/integration_deploiement_personal_front/browser'
 
   deploy:
+    runs-on: ubuntu-latest
+    needs: build_test
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build_test
     permissions:
       pages: write
       id-token: write
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v2
