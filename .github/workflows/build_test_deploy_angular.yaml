@@ -47,7 +47,6 @@ jobs:
           path: front/dist/integration_deploiement_personal_front/browser
 
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
         if: success()
         run: npx codecov
         env:
