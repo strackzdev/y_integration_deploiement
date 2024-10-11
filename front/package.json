@@ -9,7 +9,7 @@
     "build:compose": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:ci": "ng test --browsers=ChromeHeadlessNoSandbox --codeCoverage=true --watch=false",
+    "test:ci": "ng test --browsers=ChromeHeadlessNoSandbox --watch=false",
     "predeploy": "npm run build",
     "deploy": "ng deploy --repo=https://github.com/strackzdev/y_integration_deploiement.git"
   },
