@@ -1,0 +1,19 @@
+{
+  "name": "integration_deploiement_personal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "compose": "docker-compose -f docker-compose.yaml up --build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strackzdev/y_integration_deploiement.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/strackzdev/y_integration_deploiement/issues"
+  },
+  "homepage": "https://github.com/strackzdev/y_integration_deploiement#readme",
+  "description": ""
+}

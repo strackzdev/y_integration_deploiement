@@ -1,0 +1,55 @@
+### Get all users
+GET {{baseUrl}}/users
+Accept: application/json
+
+### Create a new user
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "firstName": "Jean",
+  "lastName": "Moulin",
+  "email": "jean.moulin@example.com",
+  "dateOfBirth": "2000-01-01",
+  "city": "Paris",
+  "postalCode": "75001"
+}
+
+### Create a new user (invalid data - underage)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "firstName": "Jean",
+  "lastName": "Moulin",
+  "email": "jean.moulin@example.com",
+  "dateOfBirth": "2010-01-01",
+  "city": "Paris",
+  "postalCode": "75001"
+}
+
+### Create a new user (invalid data - incorrect postal code)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "firstName": "Jean",
+  "lastName": "Moulin",
+  "email": "jean.moulin@example.com",
+  "dateOfBirth": "1955-01-01",
+  "city": "Paris",
+  "postalCode": "75001X"
+}
+
+### Create a new user (invalid data - incorrect email)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "firstName": "Jean",
+  "lastName": "Moulin",
+  "email": "jean.moulin@example",
+  "dateOfBirth": "1955-01-01",
+  "city": "Paris",
+  "postalCode": "75001"
+}

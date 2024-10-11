@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  angular-frontend:
+    build:
+      context: front
+      dockerfile: Dockerfile
+    ports:
+      - "2000:80"
+    depends_on:
+      - nestjs-backend
+
+  nestjs-backend:
+    build:
+      context: back
+      dockerfile: Dockerfile
+    ports:
+      - "2100:3000"
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=idp_user
+      - DB_PASSWORD=idp_password
+      - DB_NAME=idp_database
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: idp_user
+      POSTGRES_PASSWORD: idp_password
+      POSTGRES_DB: idp_database
+    ports:
+      - "2200:5432"
