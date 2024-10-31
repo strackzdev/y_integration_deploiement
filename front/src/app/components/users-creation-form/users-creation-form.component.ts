@@ -2,6 +2,7 @@ import {Component, inject, OnInit} from '@angular/core';
 import {AsyncPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {UsersService} from '../../services/users.service';
+import {CreateUserDto} from '../../models/user.dto';
 
 @Component({
   selector: 'app-users-creation-form',
@@ -22,8 +23,8 @@ export class UsersCreationFormComponent implements OnInit {
 
   userCreationForm!: FormGroup;
   submitted = false;
-  errorMessage = '';
-  successMessage = '';
+  errorMessage: string | null = '';
+  successMessage: string | null = '';
 
   /**
    * Initializes the component by creating the user creation form with validation rules.
@@ -48,18 +49,16 @@ export class UsersCreationFormComponent implements OnInit {
     const birthDate = new Date(control.value);
     const today = new Date();
 
+    // Check for invalid date
     if (isNaN(birthDate.getTime())) {
       return { invalidDate: true };
     }
 
-    const age = today.getFullYear() - birthDate.getFullYear();
-    const hasHadBirthdayThisYear =
-      today.getMonth() > birthDate.getMonth() ||
-      (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
+    // Calculate if 18 years have passed
+    const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 
-    if(age >= 150) return { underage: true };
-
-    return hasHadBirthdayThisYear && age >= 18 ? null : { underage: true };
+    // Compare exact date to check if they’re underage
+    return birthDate > eighteenYearsAgo ? { underage: true } : null;
   }
 
   /**
@@ -71,18 +70,18 @@ export class UsersCreationFormComponent implements OnInit {
     this.successMessage = '';
 
     if (this.userCreationForm.valid) {
-      this.userService.createUser(this.userCreationForm.value).subscribe((v) => console.log(v))
-
-      this.userService.createUser(this.userCreationForm.value).subscribe({
+      const userData: CreateUserDto = this.userCreationForm.value;
+      this.userService.createUser(userData).subscribe({
         next: (response) => {
-          this.successMessage = 'User registered successfully!';
+          this.successMessage = 'Registration successful!';
+          this.errorMessage = null;
           this.userCreationForm.reset();
-          this.submitted = false;
         },
-        error: (error) => {
+        error: (err) => {
+          console.error(err);
           this.errorMessage = 'Registration failed. Please try again.';
-          console.error('Registration error:', error);
-        },
+          this.successMessage = null;
+        }
       });
     }
   }

@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UsersListComponent} from './users-list.component';
 import {UsersCreationFormComponent} from '../users-creation-form/users-creation-form.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HttpClientTestingModule, provideHttpClientTesting} from '@angular/common/http/testing';
 import {UsersService} from '../../services/users.service';
 
 describe('UsersListComponent', () => {
@@ -12,7 +12,7 @@ describe('UsersListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UsersCreationFormComponent, HttpClientTestingModule],
-      providers: [UsersService]
+      providers: [UsersService, provideHttpClientTesting()]
     })
     .compileComponents();
 

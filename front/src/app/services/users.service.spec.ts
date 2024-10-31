@@ -2,9 +2,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { UsersService } from './users.service';
 import {UsersListComponent} from '../components/users-list/users-list.component';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {CreateUserDto, UserDto} from '../models/user.entity';
+import {HttpClientTestingModule, HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
+import {CreateUserDto, UserDto} from '../models/user.dto';
 import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -13,7 +14,7 @@ describe('UsersService', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [UsersService]
+      providers: [UsersService, provideHttpClientTesting()]
     }).compileComponents();
 
     TestBed.configureTestingModule({});

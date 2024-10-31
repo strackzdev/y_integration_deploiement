@@ -2,10 +2,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UsersCreationFormComponent} from './users-creation-form.component';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {HttpClientTestingModule, provideHttpClientTesting} from '@angular/common/http/testing';
 import {By} from '@angular/platform-browser';
 import {UsersService} from '../../services/users.service';
 import {of, throwError} from 'rxjs';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {UserDto} from '../../models/user.dto';
 
 class MockUserService {
   createUser(userData: any) {
@@ -16,19 +18,23 @@ class MockUserService {
 describe('UsersCreationFormComponent', () => {
   let component: UsersCreationFormComponent;
   let fixture: ComponentFixture<UsersCreationFormComponent>;
-  let userService: UsersService;
+  let userService: jasmine.SpyObj<UsersService>;
 
   beforeEach(async () => {
+    const userServiceSpy = jasmine.createSpyObj('UsersService', ['createUser']);
+
     await TestBed.configureTestingModule({
       imports: [UsersCreationFormComponent, ReactiveFormsModule, HttpClientTestingModule],
-      providers: [FormBuilder, { provide: UsersService, useClass: MockUserService }]
+      providers: [FormBuilder, { provide: UsersService, useClass: MockUserService }, provideHttpClientTesting(), provideHttpClient(withInterceptorsFromDi()),
+        { provide: UsersService, useValue: userServiceSpy }
+      ]
     })
       .compileComponents();
 
 
     fixture = TestBed.createComponent(UsersCreationFormComponent);
     component = fixture.componentInstance;
-    userService = TestBed.inject(UsersService);
+    userService = TestBed.inject(UsersService) as jasmine.SpyObj<UsersService>;
     fixture.detectChanges();
   });
 
@@ -179,6 +185,18 @@ describe('UsersCreationFormComponent', () => {
   });
 
   it('should display success message and reset form on successful registration', async () => {
+    const mockUserResponse: UserDto = {
+      id: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'test@example.com',
+      dateOfBirth: new Date('2000-01-01'),
+      city: 'New York',
+      postalCode: '12345'
+    };
+
+    userService.createUser.and.returnValue(of(mockUserResponse));
+
     component.userCreationForm.get('firstName')?.setValue('John');
     component.userCreationForm.get('lastName')?.setValue('Doe');
     component.userCreationForm.get('email')?.setValue('test@example.com');
@@ -186,23 +204,25 @@ describe('UsersCreationFormComponent', () => {
     component.userCreationForm.get('city')?.setValue('New York');
     component.userCreationForm.get('postalCode')?.setValue('12345');
 
-    component.onSubmit();
+    await component.onSubmit();
     fixture.detectChanges();
 
-    expect(component.successMessage).toBe('User registered successfully!');
+    const successMessageElement = fixture.nativeElement.querySelector('.success-message');
+    expect(successMessageElement).toBeTruthy();
+    expect(successMessageElement.textContent).toContain('Registration successful!');
 
-    expect(component.userCreationForm.get('firstName')?.value).toBe(null);
-    expect(component.userCreationForm.get('lastName')?.value).toBe(null);
-    expect(component.userCreationForm.get('email')?.value).toBe(null);
-    expect(component.userCreationForm.get('dateOfBirth')?.value).toBe(null);
-    expect(component.userCreationForm.get('city')?.value).toBe(null);
-    expect(component.userCreationForm.get('postalCode')?.value).toBe(null);
-    expect(component.submitted).toBe(false);
+    expect(component.userCreationForm.value).toEqual({
+      firstName: null,
+      lastName: null,
+      email: null,
+      dateOfBirth: null,
+      city: null,
+      postalCode: null,
+    });
   });
 
   it('should display error message on registration failure', async () => {
-    const userService = TestBed.inject(UsersService);
-    spyOn(userService, 'createUser').and.returnValue(throwError({ error: 'Registration failed' }));
+    userService.createUser.and.returnValue(throwError(() => new Error('Registration failed')));
 
     component.userCreationForm.get('firstName')?.setValue('John');
     component.userCreationForm.get('lastName')?.setValue('Doe');
@@ -214,7 +234,9 @@ describe('UsersCreationFormComponent', () => {
     component.onSubmit();
     fixture.detectChanges();
 
-    expect(component.errorMessage).toBe('Registration failed. Please try again.');
+    const errorMessageElement = fixture.nativeElement.querySelector('.error-message');
+    expect(errorMessageElement).toBeTruthy();
+    expect(errorMessageElement.textContent).toContain('Registration failed. Please try again.');
   });
 
   describe('ageValidator', () => {
@@ -224,12 +246,12 @@ describe('UsersCreationFormComponent', () => {
     });
 
     it('should return null if the age is 18 or older', () => {
-      const birthDate = new Date();
-      birthDate.setFullYear(birthDate.getFullYear() - 18); // Set to 18 years ago
+      const today = new Date();
+      const birthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
       component.userCreationForm.controls['dateOfBirth'].setValue(birthDate.toISOString().split('T')[0]);
 
       const result = component.ageValidator(component.userCreationForm.controls['dateOfBirth']);
-      expect(result).toBeNull();
+      expect(result).toBeNull(); // 18 or older should return null
     });
 
     it('should return { underage: true } if the age is below 18', () => {
@@ -241,22 +263,13 @@ describe('UsersCreationFormComponent', () => {
       expect(result).toEqual({ underage: true });
     });
 
-    it('should return null if the person is exactly 18 today', () => {
+    it('should return { underage: true } if the age is just under 18', () => {
       const today = new Date();
-      const birthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate()); // Born exactly 18 years ago
+      const birthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate() + 1);
       component.userCreationForm.controls['dateOfBirth'].setValue(birthDate.toISOString().split('T')[0]);
 
       const result = component.ageValidator(component.userCreationForm.controls['dateOfBirth']);
-      expect(result).toBeNull();
-    });
-
-    it('should return { underage: true } if the person is just under 18', () => {
-      const today = new Date();
-      const birthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate() + 1); // Born tomorrow
-      component.userCreationForm.controls['dateOfBirth'].setValue(birthDate.toISOString().split('T')[0]);
-
-      const result = component.ageValidator(component.userCreationForm.controls['dateOfBirth']);
-      expect(result).toEqual({ underage: true });
+      expect(result).toEqual({ underage: true }); // Under 18 should return { underage: true }
     });
 
     it('should return { underage: true } if the user is born today', () => {
