@@ -54,7 +54,7 @@ jobs:
           git remote set-url --push origin https://strackzdev:${{ secrets.PAT }}@github.com/strackzdev/y_integration_deploiement.git
           npm version patch -m "Upgrade to %s [skip ci]"
           git commit -am "NPM Version Increment"
-          git push origin HEAD:master
+          git push https://strackzdev:${{ secrets.PAT }}@github.com/strackzdev/y_integration_deploiement.git master
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
