@@ -39,9 +39,6 @@ jobs:
 
       - name: Publish package in NPM
         run: |
-          git config --global user.email "strackzdesign@gmail.com"
-          git config --global user.name "strackzdev"
-          npm adduser
           npm version patch
           npm publish
         env:
