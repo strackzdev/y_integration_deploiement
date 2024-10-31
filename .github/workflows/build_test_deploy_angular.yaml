@@ -41,6 +41,7 @@ jobs:
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Publish package in NPM
+        working-directory: front
         run: |
           git config --global user.email "strackzdesign@gmail.com"
           git config --global user.name "strackzdev"
