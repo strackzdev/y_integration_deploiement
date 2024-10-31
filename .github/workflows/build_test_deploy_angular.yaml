@@ -37,6 +37,9 @@ jobs:
         working-directory: front
         run: npm run docs
 
+      - name: Authenticate with npm
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
       - name: Publish package in NPM
         run: |
           npm version patch
