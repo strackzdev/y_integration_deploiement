@@ -40,7 +40,6 @@ jobs:
       - name: Authenticate with npm
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
-      # Problem with version increment
       - name: Publish package in NPM
         working-directory: front
         run: |
@@ -48,10 +47,15 @@ jobs:
           git config --global user.name "strackzdev"
           git remote set-url origin https://${{ secrets.PAT }}@github.com/strackzdev/y_integration_deploiement.git
           npm version patch -m "Upgrade to %s [skip ci]"
+          git commit -am "NPM Version Increment"
           git push origin HEAD:master
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
 
       - name: Setup Pages
         id: pages
