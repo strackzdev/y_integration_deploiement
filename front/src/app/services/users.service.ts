@@ -8,12 +8,11 @@ import {CreateUserDto, UserDto} from '../models/user.entity';
   providedIn: 'root'
 })
 export class UsersService {
-  http = inject(HttpClient);
   usersApiUrl = `${environment.apiUrl}/users`;
 
   usersData = new BehaviorSubject<UserDto[]>([])
 
-  constructor() { }
+  constructor(public http: HttpClient) { }
 
   /**
    * Fetches the list of users from the server and updates the local data.

@@ -57,6 +57,8 @@ export class UsersCreationFormComponent implements OnInit {
       today.getMonth() > birthDate.getMonth() ||
       (today.getMonth() === birthDate.getMonth() && today.getDate() >= birthDate.getDate());
 
+    if(age >= 150) return { underage: true };
+
     return hasHadBirthdayThisYear && age >= 18 ? null : { underage: true };
   }
 
@@ -69,6 +71,8 @@ export class UsersCreationFormComponent implements OnInit {
     this.successMessage = '';
 
     if (this.userCreationForm.valid) {
+      this.userService.createUser(this.userCreationForm.value).subscribe((v) => console.log(v))
+
       this.userService.createUser(this.userCreationForm.value).subscribe({
         next: (response) => {
           this.successMessage = 'User registered successfully!';
