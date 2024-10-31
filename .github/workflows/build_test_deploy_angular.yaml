@@ -46,6 +46,7 @@ jobs:
         run: |
           git config --global user.email "strackzdesign@gmail.com"
           git config --global user.name "strackzdev"
+          git remote set-url origin https://${{ secrets.PAT }}@github.com/strackzdev/y_integration_deploiement.git
           npm version patch -m "Upgrade to %s [skip ci]"
           git push origin HEAD:master
           npm publish
