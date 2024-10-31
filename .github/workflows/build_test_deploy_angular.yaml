@@ -56,7 +56,7 @@ jobs:
 
       - name: Push new NPM version to GIT
         working-directory: front
-      - run: |
+        run: |
           git push origin HEAD:master
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
