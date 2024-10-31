@@ -50,19 +50,14 @@ jobs:
         run: |
           git config --global user.email "strackzdesign@gmail.com"
           git config --global user.name "strackzdev"
-          git remote set-url origin https://${{ secrets.PAT }}@github.com/strackzdev/y_integration_deploiement.git
+          git remote set-url --push origin https://strackzdev:${{ secrets.PAT }}@github.com/strackzdev/y_integration_deploiement.git
           npm version patch -m "Upgrade to %s [skip ci]"
           git commit -am "NPM Version Increment"
+          git push origin HEAD:master
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Push new NPM version to GIT
-        working-directory: front
-        run: |
-          git push origin HEAD:master
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
 
       - name: Setup Pages
         id: pages
