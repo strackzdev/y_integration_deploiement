@@ -13,7 +13,7 @@
     "predeploy": "npm run build",
     "deploy": "ng deploy --repo=https://github.com/strackzdev/y_integration_deploiement.git"
   },
-  "private": true,
+  "private": false,
   "homepage": "https://strackzdev.github.io/y_integration_deploiement/",
   "dependencies": {
     "@angular/animations": "^18.2.0",
