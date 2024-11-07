@@ -53,6 +53,9 @@ jobs:
           OLD_VERSION=$(git show origin/master:front/package.json | jq -r '.version')
           NEW_VERSION=$(jq -r '.version' package.json)
           
+          echo "Old Version: $OLD_VERSION"
+          echo "New Version: $NEW_VERSION"
+          
           if [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
             echo "version_changed=true" >> $GITHUB_ENV
             echo "old_version=$OLD_VERSION" >> $GITHUB_ENV
