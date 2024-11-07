@@ -49,8 +49,12 @@ jobs:
         id: check_package
         working-directory: front
         run: |
-          if git diff --name-only HEAD^ HEAD | grep -q "package.json"; then
-            echo "package_changed=true" >> $GITHUB_ENV
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            if git diff --name-only HEAD^ HEAD | grep -q "package.json"; then
+              echo "package_changed=true" >> $GITHUB_ENV
+            else
+              echo "package_changed=false" >> $GITHUB_ENV
+            fi
           else
             echo "package_changed=false" >> $GITHUB_ENV
           fi
