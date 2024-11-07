@@ -49,9 +49,12 @@ jobs:
         id: check_version
         working-directory: front
         run: |
-          git fetch origin master
-          git log -n 1 origin/master --oneline
-          OLD_VERSION=$(git show HEAD^:front/package.json | jq -r '.version')
+          git fetch --unshallow
+          
+          LAST_COMMIT=$(git rev-parse HEAD)
+          PREV_COMMIT=$(git rev-parse HEAD^)
+          
+          OLD_VERSION=$(git show $PREV_COMMIT:front/package.json | jq -r '.version')
           NEW_VERSION=$(jq -r '.version' package.json)
           
           echo "Old Version: $OLD_VERSION"
