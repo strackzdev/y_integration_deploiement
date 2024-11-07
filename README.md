@@ -38,3 +38,6 @@ The Docker Compose file contains the Webapp (Angular) which is exposed via a ngi
 ```bash
 npm run compose
 ```
+
+## Version Strategy
+The version will be managed manually by the developer, and auto-commit versions strategy will not increment correctly when handling major version updates. Each package.json file should be updated manually to reflect the new version number, and then the updated package.json files should be deployed to the NPM repository.

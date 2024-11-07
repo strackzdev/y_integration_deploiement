@@ -49,17 +49,14 @@ jobs:
         id: check_version
         working-directory: front
         run: |
-          if git rev-parse HEAD^ >/dev/null 2>&1; then
-            OLD_VERSION=$(git show HEAD^:front/package.json | jq -r '.version')
-            NEW_VERSION=$(jq -r '.version' package.json)
-
-            if [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
-              echo "version_changed=true" >> $GITHUB_ENV
-              echo "old_version=$OLD_VERSION" >> $GITHUB_ENV
-              echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
-            else
-              echo "version_changed=false" >> $GITHUB_ENV
-            fi
+          git fetch origin master
+          OLD_VERSION=$(git show origin/master:front/package.json | jq -r '.version')
+          NEW_VERSION=$(jq -r '.version' package.json)
+          
+          if [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
+            echo "version_changed=true" >> $GITHUB_ENV
+            echo "old_version=$OLD_VERSION" >> $GITHUB_ENV
+            echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
           else
             echo "version_changed=false" >> $GITHUB_ENV
           fi
