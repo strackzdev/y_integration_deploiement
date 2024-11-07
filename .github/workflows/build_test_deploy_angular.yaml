@@ -45,13 +45,14 @@ jobs:
       - name: Authenticate with npm
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
-      - name: Check if package.json was modified
-        id: check_package
+      - name: Check if package.json version was modified
+        id: check_version
         working-directory: front
         run: |
           if git rev-parse HEAD^ >/dev/null 2>&1; then
             OLD_VERSION=$(git show HEAD^:package.json | jq -r '.version')
             NEW_VERSION=$(jq -r '.version' package.json)
+
             if [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
               echo "version_changed=true" >> $GITHUB_ENV
               echo "old_version=$OLD_VERSION" >> $GITHUB_ENV
@@ -62,12 +63,12 @@ jobs:
           else
             echo "version_changed=false" >> $GITHUB_ENV
           fi
+        shell: bash
 
-      - name: Publish package in NPM
+      - name: Publish package if version was updated
         if: env.version_changed == 'true'
         working-directory: front
-        run: |
-          npm publish
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
