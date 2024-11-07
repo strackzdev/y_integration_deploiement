@@ -41,3 +41,8 @@ npm run compose
 
 ## Version Strategy
 The version will be managed manually by the developer, and auto-commit versions strategy will not increment correctly when handling major version updates. Each package.json file should be updated manually to reflect the new version number, and then the updated package.json files should be deployed to the NPM repository.
+
+## Latest Deployment:
+
+- Webapp: [Click Here](https://strackzdev.github.io/y_integration_deploiement/)
+- Auto-Generated Documentation: [Click Here](https://strackzdev.github.io/y_integration_deploiement/docs/)

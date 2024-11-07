@@ -50,6 +50,7 @@ jobs:
         working-directory: front
         run: |
           git fetch origin master
+          git log -n 1 origin/master --oneline
           OLD_VERSION=$(git show origin/master:front/package.json | jq -r '.version')
           NEW_VERSION=$(jq -r '.version' package.json)
           
