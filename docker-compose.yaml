@@ -17,19 +17,19 @@ services:
     ports:
       - "2100:3000"
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USERNAME=idp_user
-      - DB_PASSWORD=idp_password
-      - DB_NAME=idp_database
+      - DB_HOST=${DB_HOST:-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USERNAME=${DB_USERNAME:-idp_user}
+      - DB_PASSWORD=${DB_PASSWORD:-idp_password}
+      - DB_NAME=${DB_NAME:-idp_database}
     depends_on:
       - postgres
 
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: idp_user
-      POSTGRES_PASSWORD: idp_password
-      POSTGRES_DB: idp_database
+      POSTGRES_USER: ${POSTGRES_USER:-idp_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-idp_password}
+      POSTGRES_DB: ${POSTGRES_DB:-idp_database}
     ports:
       - "2200:5432"
