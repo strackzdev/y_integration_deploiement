@@ -50,7 +50,7 @@ jobs:
         working-directory: front
         run: |
           if git rev-parse HEAD^ >/dev/null 2>&1; then
-            OLD_VERSION=$(git show HEAD^:package.json | jq -r '.version')
+            OLD_VERSION=$(git show HEAD^:front/package.json | jq -r '.version')
             NEW_VERSION=$(jq -r '.version' package.json)
 
             if [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
@@ -63,7 +63,7 @@ jobs:
           else
             echo "version_changed=false" >> $GITHUB_ENV
           fi
-        shell: bash
+        shell: /usr/bin/bash -e
 
       - name: Publish package if version was updated
         if: env.version_changed == 'true'
