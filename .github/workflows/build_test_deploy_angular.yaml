@@ -48,16 +48,10 @@ jobs:
       - name: Publish package in NPM
         working-directory: front
         run: |
-          git config --global user.email "strackzdesign@gmail.com"
-          git config --global user.name "strackzdev"
-          git remote set-url --push origin https://PAT:${{ secrets.PAT }}@github.com/strackzdev/y_integration_deploiement.git
           npm version patch -m "Upgrade to %s [skip ci]"
-          git commit -am "NPM Version Increment"
-          git push https://PAT:${{ secrets.PAT }}@github.com/strackzdev/y_integration_deploiement.git master
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.PAT }}
 
       - name: Setup Pages
         id: pages
