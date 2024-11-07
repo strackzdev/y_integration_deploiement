@@ -63,7 +63,6 @@ jobs:
           else
             echo "version_changed=false" >> $GITHUB_ENV
           fi
-        shell: /usr/bin/bash -e
 
       - name: Publish package if version was updated
         if: env.version_changed == 'true'
