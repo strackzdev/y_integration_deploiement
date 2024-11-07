@@ -51,7 +51,7 @@ jobs:
         run: |
           git fetch origin master
           git log -n 1 origin/master --oneline
-          OLD_VERSION=$(git show origin/master:front/package.json | jq -r '.version')
+          OLD_VERSION=$(git show HEAD^:front/package.json | jq -r '.version')
           NEW_VERSION=$(jq -r '.version' package.json)
           
           echo "Old Version: $OLD_VERSION"
