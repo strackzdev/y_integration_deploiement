@@ -13,9 +13,10 @@ This is a YNOV School project aiming to test, build, and deploy a project, helpi
 
 ## Important Links:
 
-- Webapp: [Click Here](https://strackzdev.github.io/y_integration_deploiement/)
-- Auto-Generated Documentation: [Click Here](https://strackzdev.github.io/y_integration_deploiement/docs/)
+- Webapp (Github Pages): [Click Here](https://strackzdev.github.io/y_integration_deploiement/)
+- Auto-Generated Documentation (Webapp): [Click Here](https://strackzdev.github.io/y_integration_deploiement/docs/)
 - Codecov: [Click Here](https://app.codecov.io/github/strackzdev/y_integration_deploiement)
+- NPM Package: [Click Here](https://www.npmjs.com/package/integration-deploiement-personal-front)
 - Github Repository: [Click Here](https://github.com/strackzdev/y_integration_deploiement)
 
 ## Getting Started
