@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   name: 'Production',
-  apiUrl: 'http://private.strackzdev.com:2100'
+  apiUrl: 'https://backend.integration-deploiement.strackzdev.com/'
 };

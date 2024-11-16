@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "compose": "docker-compose -f docker-compose.yaml up --build"
+    "compose": "docker compose -f docker-compose.yaml up --build"
   },
   "repository": {
     "type": "git",
