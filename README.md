@@ -2,16 +2,21 @@
 
 This is a YNOV School project aiming to test, build, and deploy a project, helping students to understand how it works in a real deployment chain from development to deployment.
 
-- Github Repository: [Click Here](https://github.com/strackzdev/y_integration_deploiement)
-
 # References
+- [Important Links](#important-links)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
 - [Key Features](#key-features)
 - [Project Evaluation](#project-evaluation)
 - [Version Strategy](#version-strategy)
 - [Deployment](#deployment)
-- [Check Lastest Deployment](#check-latest-deployment)
+
+## Important Links:
+
+- Webapp: [Click Here](https://strackzdev.github.io/y_integration_deploiement/)
+- Auto-Generated Documentation: [Click Here](https://strackzdev.github.io/y_integration_deploiement/docs/)
+- Codecov: [Click Here](https://app.codecov.io/github/strackzdev/y_integration_deploiement)
+- Github Repository: [Click Here](https://github.com/strackzdev/y_integration_deploiement)
 
 ## Getting Started
 
@@ -69,8 +74,3 @@ In this project example, I decided to update the NPM repository only when the de
 ## Deployment
 
 Currently, I have deployed the backend on my personal VPS to ensure you can test the project properly. Once you finalize your choice of cloud provider with Ynov, I will adapt the deployment accordingly.
-
-## Check Latest Deployment:
-
-- Webapp: [Click Here](https://strackzdev.github.io/y_integration_deploiement/)
-- Auto-Generated Documentation: [Click Here](https://strackzdev.github.io/y_integration_deploiement/docs/)
