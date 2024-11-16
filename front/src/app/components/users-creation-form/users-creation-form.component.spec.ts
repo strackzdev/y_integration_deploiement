@@ -281,14 +281,14 @@ describe('UsersCreationFormComponent', () => {
       expect(result).toEqual({ underage: true });
     });
 
-    // it('should return { underage: true } if the user 150 or older', () => {
-    //   const date = new Date();
-    //   const birthDate = new Date(date.getFullYear() - 160, date.getMonth(), date.getDate());
-    //   component.userCreationForm.controls['dateOfBirth'].setValue(birthDate.toISOString().split('T')[0]);
-    //
-    //   const result = component.ageValidator(component.userCreationForm.controls['dateOfBirth']);
-    //   expect(result).toEqual({ underage: true });
-    // });
+    it('should return { underage: true } if the user 150 or older', () => {
+      const date = new Date();
+      const birthDate = new Date(date.getFullYear() - 160, date.getMonth(), date.getDate());
+      component.userCreationForm.controls['dateOfBirth'].setValue(birthDate.toISOString().split('T')[0]);
+
+      const result = component.ageValidator(component.userCreationForm.controls['dateOfBirth']);
+      expect(result).toEqual({ underage: true });
+    });
 
     it('should return { underage: true } if the birth date is just before today', () => {
       const today = new Date();

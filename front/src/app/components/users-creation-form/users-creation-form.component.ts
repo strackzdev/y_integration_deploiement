@@ -54,6 +54,9 @@ export class UsersCreationFormComponent implements OnInit {
       return { invalidDate: true };
     }
 
+    const tooOld = new Date(today.getFullYear() - 150, today.getMonth(), today.getDate());
+    if(birthDate < tooOld) return { underage: true };
+
     // Calculate if 18 years have passed
     const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
 

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   name: 'Production',
-  apiUrl: 'http://localhost:2100'
+  apiUrl: 'https://private.strackzdev.com:2100'
 };
